@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { useQuery } from 'react-query'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Header from './components/Header'
+import Home from './components/Home'
+import Create from './components/Create'
+import Update from './components/Update'
+import NotFound from './components/NotFound.jsx'
+import Loader from './components/Loader'
+import { setAuthToken } from './api'
+
+const App = () => {
+	useEffect(() => {
+		setAuthToken()
+	}, [])
+
+	return (
+		<Router>
+			<Header />
+			<div className="container">
+				<Switch>
+					<Route exact path="/" component={Home} />
+					<Route path="/create" component={Create} />
+					<Route path="/update" component={Update} />
+					<Route path="*" component={NotFound} />
+				</Switch>
+			</div>
+		</Router>
+	)
 }
 
-export default App;
+export default App
